@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi especial Zozi 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Gradiente mágico de atardecer */
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%), linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            background-blend-mode: soft-light;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+            perspective: 1000px; /* Para efecto 3D leve */
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: containerAppear 1.5s ease-out;
+        }
+
+        /* --- Título y Apodo --- */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d81b60; /* Un rosa intenso */
+            font-size: 3.5rem;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 5px rgba(216, 27, 96, 0.3);
+        }
+
+        .highlight {
+            color: #6a0dad; /* Violeta para destacar el apodo */
+        }
+
+        /* --- El Corazón de Flores (Floral Heart) --- */
+        .floral-heart-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+            animation: pulseHeart 2s infinite; /* Animación de latido */
+        }
+
+        /* Base del corazón usando pseudoelementos */
+        .floral-heart-container::before,
+        .floral-heart-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 80px;
+            height: 130px;
+            border-radius: 80px 80px 0 0;
+            /* Estos círculos se llenarán de flores con JS */
+        }
+
+        .floral-heart-container::before {
+            left: 80px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .floral-heart-container::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        /* Estilo de las mini-flores dentro del corazón */
+        .mini-flower {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.9;
+            box-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        /* --- Mensaje Final --- */
+        .message {
+            color: #4b0082;
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .special-heart {
+            font-size: 1.5rem;
+            display: inline-block;
+            animation: swing 1s infinite alternate ease-in-out;
+        }
+
+        /* --- Partículas de Fondo --- */
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: sparkleFall linear infinite;
+        }
+
+        /* --- ANIMACIONES CSS --- */
+
+        @keyframes containerAppear {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes sparkleFall {
+            0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
+        }
+
+        @keyframes swing {
+            from { transform: rotate(-10deg); }
+            to { transform: rotate(10deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Para <span class="highlight">Zozi</span></h1>
+        
+        <div class="floral-heart-container" id="floralHeart">
+            </div>
+
+        <div class="message">
+            <p>Zoe, eres una mujer excepcional, llena de luz y fuerza.</p>
+            <p>Hoy celebramos tu día, pero tú haces brillar todos los días.</p>
+            <p>Con mucho cariño, <span class="special-heart">💖</span></p>
+        </div>
+    </div>
+
+    <script>
+        // --- Generador de Flores dentro del Corazón ---
+        const heart = document.getElementById('floralHeart');
+        const flowerColors = ['#ff69b4', '#ff1493', '#da70d6', '#ee82ee', '#ffd700']; // Rosas, violetas, oro
+
+        function createFloralHeart() {
+            for (let i = 0; i < 60; i++) { // Número de mini flores
+                const flower = document.createElement('div');
+                flower.classList.add('mini-flower');
+                
+                // Tamaño aleatorio de la flor
+                const size = Math.random() * 15 + 10 + 'px';
+                flower.style.width = size;
+                flower.style.height = size;
+                
+                // Color aleatorio
+                flower.style.background = flowerColors[Math.floor(Math.random() * flowerColors.length)];
+                
+                // Posicionamiento dentro del área del corazón (aproximado)
+                // Usamos un pequeño truco matemático para distribuirlas
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * 70; // Radio del corazón
+                
+                // Formula paramétrica básica del corazón para distribuir flores
+                const x = 16 * Math.pow(Math.sin(angle), 3);
+                const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+
+                // Ajustar escala y posición central
+                flower.style.left = (x * 4 + 75) + 'px'; 
+                flower.style.top = (y * 4 + 60) + 'px'; 
+                
+                // Animación individual sutil
+                flower.style.animation = `pulseHeart ${Math.random() * 2 + 1}s infinite ease-in-out`;
+                flower.style.animationDelay = Math.random() * 2 + 's';
+
+                heart.appendChild(flower);
+            }
+        }
+
+        // --- Generador de destellos de fondo (Sparkles) ---
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            // Posición horizontal aleatoria
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 8 + 4 + 'px';
+            sparkle.style.width = size;
+            sparkle.style.height = size;
+            
+            // Duración y retraso aleatorio para naturalidad
+            sparkle.style.animationDuration = Math.random() * 4 + 3 + 's';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            
+            // Variación leve de color de destello
+            const colors = ['#fff', '#ffd700', '#ffb6c1'];
+            sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(sparkle);
+
+            // Eliminar elemento después de la animación
+            setTimeout(() => {
+                sparkle.remove();
+            }, 6000);
+        }
+
+        // Iniciar
+        createFloralHeart();
+        setInterval(createSparkle, 150); // Crear destellos continuamente
+
+    </script>
+</body>
+</html>
